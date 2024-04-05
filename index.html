@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://use.typekit.net/nzr1xry.css">
+  <script src="https://kit.fontawesome.com/a53285079f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="index.css">
+  <title>Timer</title>
+</head>
+<body>
+  <main>
+    <div class="container">
+      <h1> Timer</h1>
+      <label for="hours">Hours:</label>
+      <input type="number" id="hours" min="0" value="0">
+      <label for="minutes">Minutes:</label>
+      <input type="number" id="minutes" min="0" max="59" value="0">
+      <label for="seconds">Seconds:</label>
+      <input type="number" id="seconds" min="0" max="59" value="10"><br>
+      <button onclick="startCountdown()"><i class="fa-solid fa-play fa-xl"></i></button>
+    </div>
+    <div class="timer">
+      <div class="animator">
+        <div class="wav wav1">
+        </div>
+  
+        <div class="wav wav2">
+        </div>
+  
+        <div class="wav wav3">
+        </div>
+  
+      </div>
+      
+      <div class="countdown" id="countdown">
+        <h2>00:00:00</h2>
+      </div>
+    </div>
+    <div class="make">
+      <p><b>Made with 💖 by <a href="https://github.com/Anu277">@anu</b></p>
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
+ 

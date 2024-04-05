@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Countdown Timer</title>
+  <style>
+    /* Hide the increment and decrement arrows */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+  </style>
+</head>
+<body>
+  <h1>Countdown Timer</h1>
+  <label for="hours">Hours:</label>
+  <input type="number" id="hours" min="0" value="0" readonly>
+  <label for="minutes">Minutes:</label>
+  <input type="number" id="minutes" min="0" max="59" value="0" readonly>
+  <label for="seconds">Seconds:</label>
+  <input type="number" id="seconds" min="0" max="59" value="10" readonly>
+  <button onclick="startCountdown()">Start Countdown</button>
+  <button onclick="pauseCountdown()">Pause</button>
+  <button onclick="resumeCountdown()">Resume</button>
+  <h2 id="timer"></h2>
+
+  <script>
+    let countdown;
+    let timerRunning = false;
+    let timer;
+    let pausedTime = 0;
+    
+    function startCountdown() {
+      if (timerRunning) {
+        return;
+      }
+
+      const hoursInput = document.getElementById('hours');
+      const minutesInput = document.getElementById('minutes');
+      const secondsInput = document.getElementById('seconds');
+
+      const hours = parseInt(hoursInput.value);
+      const minutes = parseInt(minutesInput.value);
+      const seconds = parseInt(secondsInput.value);
+
+      const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+      // Disable the inputs and start button during the countdown
+      hoursInput.disabled = true;
+      minutesInput.disabled = true;
+      secondsInput.disabled = true;
+      document.querySelector('button').disabled = true;
+
+      timerRunning = true;
+      timer = totalSeconds;
+
+      countdown = setInterval(function () {
+        const formattedTime = formatTime(timer);
+        document.getElementById('timer').textContent = formattedTime;
+        timer--;
+
+        if (timer < 0) {
+          clearInterval(countdown);
+          document.getElementById('timer').textContent = 'Countdown Complete!';
+          // Re-enable the inputs and start button after the countdown is complete
+          hoursInput.disabled = false;
+          minutesInput.disabled = false;
+          secondsInput.disabled = false;
+          document.querySelector('button').disabled = false;
+          timerRunning = false;
+        }
+      }, 1000);
+    }
+
+    function pauseCountdown() {
+      if (!timerRunning) {
+        return;
+      }
+
+      clearInterval(countdown);
+      timerRunning = false;
+      pausedTime = timer;
+    }
+
+    function resumeCountdown() {
+      if (timerRunning || pausedTime === 0) {
+        return;
+      }
+
+      timer = pausedTime;
+      pausedTime = 0;
+      timerRunning = true;
+
+      countdown = setInterval(function () {
+        const formattedTime = formatTime(timer);
+        document.getElementById('timer').textContent = formattedTime;
+        timer--;
+
+        if (timer < 0) {
+          clearInterval(countdown);
+          document.getElementById('timer').textContent = 'Countdown Complete!';
+          // Re-enable the inputs and start button after the countdown is complete
+          hoursInput.disabled = false;
+          minutesInput.disabled = false;
+          secondsInput.disabled = false;
+          document.querySelector('button').disabled = false;
+          timerRunning = false;
+        }
+      }, 1000);
+    }
+
+    function formatTime(timeInSeconds) {
+      const hours = Math.floor(timeInSeconds / 3600);
+      const minutes = Math.floor((timeInSeconds % 3600) / 60);
+      const seconds = Math.floor(timeInSeconds % 60);
+
+      const formattedHours = String(hours).padStart(2, '0');
+      const formattedMinutes = String(minutes).padStart(2, '0');
+      const formattedSeconds = String(seconds).padStart(2, '0');
+
+      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    }
+  </script>
+</body>
+</html>
